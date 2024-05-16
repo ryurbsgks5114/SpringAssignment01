@@ -6,6 +6,8 @@ import com.sparta.assignment01.entity.Schedule;
 import com.sparta.assignment01.repo.ScheduleRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ScheduleService {
 
@@ -26,6 +28,10 @@ public class ScheduleService {
 
     public ScheduleResponseDto getSchedule(int id) {
         return new ScheduleResponseDto(scheduleRepo.findById(id).orElseThrow( () -> new IllegalArgumentException("해당 일정은 존재하지 않습니다.")));
+    }
+
+    public List<ScheduleResponseDto> getAllSchedules() {
+        return scheduleRepo.findAllByOrderByCreatedAtDesc().stream().map(ScheduleResponseDto::new).toList();
     }
 
 }

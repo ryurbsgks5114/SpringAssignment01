@@ -4,6 +4,7 @@ import com.sparta.assignment01.entity.Schedule;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 public class ScheduleResponseDto {
@@ -12,7 +13,7 @@ public class ScheduleResponseDto {
     private String title;
     private String content;
     private String manager;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
