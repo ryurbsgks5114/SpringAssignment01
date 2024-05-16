@@ -30,4 +30,10 @@ public class Schedule extends Timestamped {
         this.pw = scheduleRequestDto.getPw();
     }
 
+    public void update(ScheduleRequestDto scheduleRequestDto) {
+        this.title = scheduleRequestDto.getTitle();
+        this.content = scheduleRequestDto.getContent();
+        this.manager = scheduleRequestDto.getManager();
+    }
+
 }
