@@ -63,6 +63,18 @@ public class ScheduleService {
         return new ScheduleResponseDto(schedule);
     }
 
+    public void deleteSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
+
+        Schedule schedule = findScheduleById(id);
+
+        if (checkPw(schedule, scheduleRequestDto.getPw())) {
+            scheduleRepo.delete(schedule);
+        } else {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+    }
+
     public Schedule findScheduleById(int id) {
         return scheduleRepo.findById(id).orElseThrow( () -> new IllegalArgumentException("해당 일정은 존재하지 않습니다."));
     }
