@@ -3,18 +3,16 @@ package com.sparta.assignment01.controller;
 import com.sparta.assignment01.dto.ScheduleRequestDto;
 import com.sparta.assignment01.dto.ScheduleResponseDto;
 import com.sparta.assignment01.service.ScheduleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
-
-    public ScheduleController(ScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
-    }
 
     @PostMapping("/schedules")
     public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto requestDto) {

@@ -4,19 +4,17 @@ import com.sparta.assignment01.dto.ScheduleRequestDto;
 import com.sparta.assignment01.dto.ScheduleResponseDto;
 import com.sparta.assignment01.entity.Schedule;
 import com.sparta.assignment01.repo.ScheduleRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ScheduleService {
 
     private final ScheduleRepo scheduleRepo;
-
-    public ScheduleService(ScheduleRepo scheduleRepo) {
-        this.scheduleRepo = scheduleRepo;
-    }
 
     public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto) {
 
