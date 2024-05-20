@@ -3,8 +3,13 @@ package com.sparta.assignment01.service;
 import com.sparta.assignment01.dto.ScheduleRequestDto;
 import com.sparta.assignment01.dto.ScheduleResponseDto;
 import com.sparta.assignment01.entity.Schedule;
+import com.sparta.assignment01.exception.BadRequestException;
+import com.sparta.assignment01.exception.NotFoundException;
+import com.sparta.assignment01.exception.UnauthorizedException;
 import com.sparta.assignment01.repo.ScheduleRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,65 +21,88 @@ public class ScheduleService {
 
     private final ScheduleRepo scheduleRepo;
 
-    public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto) {
+
+        if ((scheduleRequestDto.getTitle() == null || scheduleRequestDto.getTitle().isEmpty()) || (scheduleRequestDto.getContent() == null || scheduleRequestDto.getContent().isEmpty()) || (scheduleRequestDto.getManager() == null || scheduleRequestDto.getManager().isEmpty()) || (scheduleRequestDto.getPw() == null || scheduleRequestDto.getPw().isEmpty())) {
+            throw new BadRequestException("title, content, manager, pw를 모두 입력해주세요.");
+        }
 
         Schedule schedule = new Schedule(scheduleRequestDto);
 
         scheduleRepo.save(schedule);
 
-        return new ScheduleResponseDto(schedule);
+        return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.CREATED);
     }
 
-    public ScheduleResponseDto getSchedule(int id) {
-        return new ScheduleResponseDto(findScheduleById(id));
-    }
-
-    public List<ScheduleResponseDto> getAllSchedules() {
-        return scheduleRepo.findAllByOrderByCreatedAtDesc().stream().map(ScheduleResponseDto::new).toList();
-    }
-
-    @Transactional
-    public ScheduleResponseDto updateSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<ScheduleResponseDto> getSchedule(int id) {
 
         Schedule schedule = findScheduleById(id);
 
+        return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ScheduleResponseDto>> getAllSchedules() {
+
+        List<ScheduleResponseDto> scheduleList = scheduleRepo.findAllByOrderByCreatedAtDesc().stream().map(ScheduleResponseDto::new).toList();
+
+        if (scheduleList.isEmpty()) {
+            throw new NotFoundException("등록된 일정이 없습니다.");
+        }
+
+        return new ResponseEntity<>(scheduleList, HttpStatus.OK);
+    }
+
+    @Transactional
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
+
+        Schedule schedule = findScheduleById(id);
+
+        if ((scheduleRequestDto.getTitle() == null || scheduleRequestDto.getTitle().isEmpty()) && (scheduleRequestDto.getContent() == null || scheduleRequestDto.getContent().isEmpty()) && (scheduleRequestDto.getManager() == null || scheduleRequestDto.getManager().isEmpty())) {
+            throw new BadRequestException("수정하려는 값을 입력해주세요");
+        }
+
         if (checkPw(schedule, scheduleRequestDto.getPw())) {
 
-            if (scheduleRequestDto.getTitle() == null) {
+            if (scheduleRequestDto.getTitle() == null || scheduleRequestDto.getTitle().isEmpty()) {
                 scheduleRequestDto.setTitle(schedule.getTitle());
             }
 
-            if (scheduleRequestDto.getContent() == null) {
+            if (scheduleRequestDto.getContent() == null || scheduleRequestDto.getContent().isEmpty()) {
                 scheduleRequestDto.setContent(schedule.getContent());
             }
 
-            if (scheduleRequestDto.getManager() == null) {
+            if (scheduleRequestDto.getManager() == null || scheduleRequestDto.getManager().isEmpty()) {
                 scheduleRequestDto.setManager(schedule.getManager());
             }
 
             schedule.update(scheduleRequestDto);
 
         } else {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
         }
 
-        return new ScheduleResponseDto(schedule);
+        return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.OK);
     }
 
-    public void deleteSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<Void> deleteSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
 
         Schedule schedule = findScheduleById(id);
+
+        if (scheduleRequestDto.getPw() == null || scheduleRequestDto.getPw().isEmpty()) {
+            throw new BadRequestException("비밀번호를 입력해주세요.");
+        }
 
         if (checkPw(schedule, scheduleRequestDto.getPw())) {
             scheduleRepo.delete(schedule);
         } else {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
         }
 
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public Schedule findScheduleById(int id) {
-        return scheduleRepo.findById(id).orElseThrow( () -> new IllegalArgumentException("해당 일정은 존재하지 않습니다."));
+        return scheduleRepo.findById(id).orElseThrow( () -> new NotFoundException("해당 일정은 존재하지 않습니다."));
     }
 
     public boolean checkPw(Schedule schedule, String pw) {
