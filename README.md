@@ -42,4 +42,4 @@ HTTP 요청에 대한 응답과 DB에서 데이터를 관리하는 기능이 가
 
 ## ✍ API 명세서
 
-[GitBook API 명세서](https://app.gitbook.com/o/eDxVzDlMrVlsJED181bD/s/bhp0Xb4lEsxszyYsmqpq/spring-assignment/api-reference)
+[GitBook API 명세서](https://ryurbsgks.gitbook.io/spring-assignment/)
