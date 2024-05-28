@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class ScheduleController {
     })
     @PostMapping("/schedules")
     @Operation(summary = "일정 작성", description = "새로운 일정을 작성합니다.")
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@Validated(ScheduleRequestDto.Create.class) @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.createSchedule(requestDto);
     }
 
@@ -64,7 +64,7 @@ public class ScheduleController {
     })
     @PatchMapping("/schedules/{id}")
     @Operation(summary = "선택한 일정 수정", description = "선택한 id의 일정을 수정합니다.")
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(@Parameter(description = "수정할 일정의 id", example = "1") @PathVariable int id, @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@Parameter(description = "수정할 일정의 id", example = "1") @PathVariable int id, @Validated(ScheduleRequestDto.UpdateOrDelete.class) @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.updateSchedule(id, requestDto);
     }
 
@@ -77,7 +77,7 @@ public class ScheduleController {
     })
     @DeleteMapping("/schedules/{id}")
     @Operation(summary = "선택한 일정 삭제", description = "선택한 id의 일정을 삭제합니다.")
-    public ResponseEntity<Void> deleteSchedule(@Parameter(description = "삭제할 일정의 id") @PathVariable int id, @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<Void> deleteSchedule(@Parameter(description = "삭제할 일정의 id") @PathVariable int id, @Validated(ScheduleRequestDto.UpdateOrDelete.class) @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.deleteSchedule(id, requestDto);
     }
 

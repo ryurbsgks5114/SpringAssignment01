@@ -23,10 +23,6 @@ public class ScheduleService {
 
     public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto) {
 
-        if ((scheduleRequestDto.getTitle() == null || scheduleRequestDto.getTitle().isEmpty()) || (scheduleRequestDto.getContent() == null || scheduleRequestDto.getContent().isEmpty()) || (scheduleRequestDto.getManager() == null || scheduleRequestDto.getManager().isEmpty()) || (scheduleRequestDto.getPw() == null || scheduleRequestDto.getPw().isEmpty())) {
-            throw new BadRequestException("title, content, manager, pw를 모두 입력해주세요.");
-        }
-
         Schedule schedule = new Schedule(scheduleRequestDto);
 
         scheduleRepo.save(schedule);
@@ -87,10 +83,6 @@ public class ScheduleService {
     public ResponseEntity<Void> deleteSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
 
         Schedule schedule = findScheduleById(id);
-
-        if (scheduleRequestDto.getPw() == null || scheduleRequestDto.getPw().isEmpty()) {
-            throw new BadRequestException("비밀번호를 입력해주세요.");
-        }
 
         if (checkPw(schedule, scheduleRequestDto.getPw())) {
             scheduleRepo.delete(schedule);
