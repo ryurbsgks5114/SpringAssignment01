@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -53,26 +54,12 @@ public class ScheduleService {
 
         Schedule schedule = findScheduleById(id);
 
-        if ((scheduleRequestDto.getTitle() == null || scheduleRequestDto.getTitle().isEmpty()) && (scheduleRequestDto.getContent() == null || scheduleRequestDto.getContent().isEmpty()) && (scheduleRequestDto.getManager() == null || scheduleRequestDto.getManager().isEmpty())) {
+        if (!StringUtils.hasText(scheduleRequestDto.getTitle()) && !StringUtils.hasText(scheduleRequestDto.getContent()) && !StringUtils.hasText(scheduleRequestDto.getManager())) {
             throw new BadRequestException("수정하려는 값을 입력해주세요");
         }
 
-        if (checkPw(schedule, scheduleRequestDto.getPw())) {
-
-            if (scheduleRequestDto.getTitle() == null || scheduleRequestDto.getTitle().isEmpty()) {
-                scheduleRequestDto.setTitle(schedule.getTitle());
-            }
-
-            if (scheduleRequestDto.getContent() == null || scheduleRequestDto.getContent().isEmpty()) {
-                scheduleRequestDto.setContent(schedule.getContent());
-            }
-
-            if (scheduleRequestDto.getManager() == null || scheduleRequestDto.getManager().isEmpty()) {
-                scheduleRequestDto.setManager(schedule.getManager());
-            }
-
+        if (schedule.checkPw(scheduleRequestDto.getPw())) {
             schedule.update(scheduleRequestDto);
-
         } else {
             throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
         }
@@ -84,7 +71,7 @@ public class ScheduleService {
 
         Schedule schedule = findScheduleById(id);
 
-        if (checkPw(schedule, scheduleRequestDto.getPw())) {
+        if (schedule.checkPw(scheduleRequestDto.getPw())) {
             scheduleRepo.delete(schedule);
         } else {
             throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
@@ -95,10 +82,6 @@ public class ScheduleService {
 
     public Schedule findScheduleById(int id) {
         return scheduleRepo.findById(id).orElseThrow( () -> new NotFoundException("해당 일정은 존재하지 않습니다."));
-    }
-
-    public boolean checkPw(Schedule schedule, String pw) {
-        return schedule.getPw().equals(pw);
     }
 
 }

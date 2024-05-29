@@ -4,6 +4,7 @@ import com.sparta.assignment01.dto.ScheduleRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Table(name = "schedules")
@@ -31,9 +32,23 @@ public class Schedule extends Timestamped {
     }
 
     public void update(ScheduleRequestDto scheduleRequestDto) {
-        this.title = scheduleRequestDto.getTitle();
-        this.content = scheduleRequestDto.getContent();
-        this.manager = scheduleRequestDto.getManager();
+
+        if (StringUtils.hasText(scheduleRequestDto.getTitle())) {
+            this.title = scheduleRequestDto.getTitle();
+        }
+
+        if (StringUtils.hasText(scheduleRequestDto.getContent())) {
+            this.content = scheduleRequestDto.getContent();
+        }
+
+        if (StringUtils.hasText(scheduleRequestDto.getManager())) {
+            this.manager = scheduleRequestDto.getManager();
+        }
+
+    }
+
+    public boolean checkPw(String pw) {
+        return this.pw.equals(pw);
     }
 
 }
