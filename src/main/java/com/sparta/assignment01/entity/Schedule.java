@@ -15,13 +15,17 @@ public class Schedule extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "title", nullable = false)
+
+    @Column(nullable = false)
     private String title;
-    @Column(name = "content", nullable = false)
+
+    @Column(nullable = false)
     private String content;
-    @Column(name = "manager", nullable = false)
+
+    @Column(nullable = false)
     private String manager;
-    @Column(name = "pw", nullable = false)
+
+    @Column(nullable = false)
     private String pw;
 
     public Schedule(ScheduleRequestDto scheduleRequestDto) {
