@@ -31,7 +31,7 @@ public class ScheduleService {
         return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<ScheduleResponseDto> getSchedule(int id) {
+    public ResponseEntity<ScheduleResponseDto> getSchedule(Long id) {
 
         Schedule schedule = findScheduleById(id);
 
@@ -50,7 +50,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
 
         Schedule schedule = findScheduleById(id);
 
@@ -67,7 +67,7 @@ public class ScheduleService {
         return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> deleteSchedule(int id, ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<Void> deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
 
         Schedule schedule = findScheduleById(id);
 
@@ -80,7 +80,7 @@ public class ScheduleService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public Schedule findScheduleById(int id) {
+    public Schedule findScheduleById(Long id) {
         return scheduleRepo.findById(id).orElseThrow( () -> new NotFoundException("해당 일정은 존재하지 않습니다."));
     }
 

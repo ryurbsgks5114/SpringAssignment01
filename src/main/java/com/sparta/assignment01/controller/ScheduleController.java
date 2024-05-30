@@ -40,7 +40,7 @@ public class ScheduleController {
     })
     @GetMapping("/schedules/{id}")
     @Operation(summary = "선택한 일정 조회", description = "선택한 id의 일정을 조회합니다.")
-    public ResponseEntity<ScheduleResponseDto> getSchedule(@Parameter(description = "조회할 일정의 id", example = "1") @PathVariable int id) {
+    public ResponseEntity<ScheduleResponseDto> getSchedule(@Parameter(description = "조회할 일정의 id", example = "1") @PathVariable Long id) {
         return scheduleService.getSchedule(id);
     }
 
@@ -64,7 +64,7 @@ public class ScheduleController {
     })
     @PatchMapping("/schedules/{id}")
     @Operation(summary = "선택한 일정 수정", description = "선택한 id의 일정을 수정합니다.")
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(@Parameter(description = "수정할 일정의 id", example = "1") @PathVariable int id, @Validated(ScheduleRequestDto.UpdateOrDelete.class) @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@Parameter(description = "수정할 일정의 id", example = "1") @PathVariable Long id, @Validated(ScheduleRequestDto.UpdateOrDelete.class) @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.updateSchedule(id, requestDto);
     }
 
@@ -77,7 +77,7 @@ public class ScheduleController {
     })
     @DeleteMapping("/schedules/{id}")
     @Operation(summary = "선택한 일정 삭제", description = "선택한 id의 일정을 삭제합니다.")
-    public ResponseEntity<Void> deleteSchedule(@Parameter(description = "삭제할 일정의 id") @PathVariable int id, @Validated(ScheduleRequestDto.UpdateOrDelete.class) @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<Void> deleteSchedule(@Parameter(description = "삭제할 일정의 id") @PathVariable Long id, @Validated(ScheduleRequestDto.UpdateOrDelete.class) @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.deleteSchedule(id, requestDto);
     }
 
