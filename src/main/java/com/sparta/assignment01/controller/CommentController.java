@@ -6,10 +6,7 @@ import com.sparta.assignment01.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,9 +14,14 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/schedules/{scheduleId}/comment")
+    @PostMapping("/schedules/{scheduleId}/comments")
     public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long scheduleId, @Valid @RequestBody CommentRequestDto commentRequestDto) {
         return commentService.createComment(scheduleId, commentRequestDto);
+    }
+
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentRequestDto commentRequestDto) {
+        return commentService.updateComment(commentId, commentRequestDto);
     }
 
 }
