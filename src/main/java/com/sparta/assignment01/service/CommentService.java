@@ -40,6 +40,15 @@ public class CommentService {
         return new ResponseEntity<>(new CommentResponseDto(comment), HttpStatus.OK);
     }
 
+    public ResponseEntity<String> deleteComment(Long commentId) {
+
+        Comment comment = findCommentById(commentId);
+
+        commentRepo.delete(comment);
+
+        return new ResponseEntity<>("댓글 삭제 성공", HttpStatus.OK);
+    }
+
     public Schedule findScheduleById(Long id) {
         return scheduleRepo.findById(id).orElseThrow( () -> new NotFoundException("해당 일정은 존재하지 않습니다."));
     }
