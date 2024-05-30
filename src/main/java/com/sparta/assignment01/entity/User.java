@@ -1,6 +1,6 @@
 package com.sparta.assignment01.entity;
 
-import com.sparta.assignment01.dto.SignupRequestDto;
+import com.sparta.assignment01.dto.UserRequestDto;
 import com.sparta.assignment01.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,10 +29,10 @@ public class User extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private UserRole authority;
 
-    public User(SignupRequestDto signupRequestDto, UserRole authority) {
-        this.name = signupRequestDto.getName();
-        this.pw = signupRequestDto.getPw();
-        this.nickname = signupRequestDto.getNickname();
+    public User(UserRequestDto userRequestDto, UserRole authority) {
+        this.name = userRequestDto.getName();
+        this.pw = userRequestDto.getPw();
+        this.nickname = userRequestDto.getNickname();
         this.authority = authority;
     }
 
