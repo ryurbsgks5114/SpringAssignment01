@@ -22,9 +22,14 @@ public class Comment extends Timestamped {
     @JoinColumn(nullable = false)
     private Schedule schedule;
 
-    public Comment(CommentRequestDto commentRequestDto, Schedule schedule) {
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
+
+    public Comment(CommentRequestDto commentRequestDto, Schedule schedule, User user) {
         this.content = commentRequestDto.getContent();
         this.schedule = schedule;
+        this.user = user;
     }
 
     public void update(CommentRequestDto commentRequestDto) {

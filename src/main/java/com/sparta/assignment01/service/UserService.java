@@ -25,7 +25,7 @@ public class UserService {
     public ResponseEntity<String> signup(UserRequestDto userRequestDto) {
 
         if (findUserByName(userRequestDto.getName()).isPresent()) {
-            throw new DuplicateUserException("이미 존재하는 사용자 이름입니다.");
+            throw new DuplicateUserException("중복된 username 입니다.");
         }
 
         UserRole userRole = UserRole.USER;
@@ -46,7 +46,7 @@ public class UserService {
         Optional<User> user = findUserByName(userRequestDto.getName());
 
         if (user.isEmpty() || !user.get().getPw().equals(userRequestDto.getPw())) {
-            throw new AuthenticationException("아이디와 비밀번호를 확인해주세요.");
+            throw new AuthenticationException("회원을 찾을 수 없습니다.");
         }
 
         String token = jwtUtil.createToken(user.get().getName(), user.get().getAuthority());
