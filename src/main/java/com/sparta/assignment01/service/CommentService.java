@@ -37,9 +37,7 @@ public class CommentService {
 
         Schedule schedule = findScheduleById(scheduleId);
         User user = findUserByName(info.getSubject());
-        Comment comment = new Comment(commentRequestDto, schedule, user);
-
-        commentRepo.save(comment);
+        Comment comment = commentRepo.save(new Comment(commentRequestDto, schedule, user));
 
         return new ResponseEntity<>(new CommentResponseDto(comment), HttpStatus.CREATED);
     }

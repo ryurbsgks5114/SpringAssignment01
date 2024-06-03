@@ -25,9 +25,7 @@ public class ScheduleService {
     @Transactional
     public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto) {
 
-        Schedule schedule = new Schedule(scheduleRequestDto);
-
-        scheduleRepo.save(schedule);
+        Schedule schedule = scheduleRepo.save(new Schedule(scheduleRequestDto));
 
         return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.CREATED);
     }
