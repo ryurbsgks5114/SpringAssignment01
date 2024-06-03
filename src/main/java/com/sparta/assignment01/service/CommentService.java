@@ -29,6 +29,7 @@ public class CommentService {
     private final UserRepo userRepo;
     private final JwtUtil jwtUtil;
 
+    @Transactional
     public ResponseEntity<CommentResponseDto> createComment(Long scheduleId, CommentRequestDto commentRequestDto, String bearerToken) {
 
         String jwtToken = checkToken(bearerToken);
@@ -61,6 +62,7 @@ public class CommentService {
         return new ResponseEntity<>(new CommentResponseDto(comment), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<String> deleteComment(Long commentId, String bearerToken) {
 
         String jwtToken = checkToken(bearerToken);

@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private static final int AUTHORITY = 1;
 
+    @Transactional
     public ResponseEntity<String> signup(UserRequestDto userRequestDto) {
 
         if (findUserByName(userRequestDto.getName()).isPresent()) {

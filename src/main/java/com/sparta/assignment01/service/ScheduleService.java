@@ -22,6 +22,7 @@ public class ScheduleService {
 
     private final ScheduleRepo scheduleRepo;
 
+    @Transactional
     public ResponseEntity<ScheduleResponseDto> createSchedule(ScheduleRequestDto scheduleRequestDto) {
 
         Schedule schedule = new Schedule(scheduleRequestDto);
@@ -67,6 +68,7 @@ public class ScheduleService {
         return new ResponseEntity<>(new ScheduleResponseDto(schedule), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<Void> deleteSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
 
         Schedule schedule = findScheduleById(id);
