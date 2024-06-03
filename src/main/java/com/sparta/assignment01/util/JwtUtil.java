@@ -1,43 +1,32 @@
-package com.sparta.assignment01.jwt;
+package com.sparta.assignment01.util;
 
+import com.sparta.assignment01.config.JwtConfig;
 import com.sparta.assignment01.enums.UserRole;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
 @Slf4j(topic = "JwtUtil")
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
 
     public static final String AUTHORIZATION_KEY = "auth";
     public static final String BEARER_PREFIX = "Bearer ";
-    private final long TOKEN_TIME = 60 * 60 * 1000L;
+    private static final long TOKEN_TIME = 60 * 60 * 1000L;
 
-    @Value("${jwt.secret.key}")
-    private String secretKey;
-    private Key key;
+    private final JwtConfig jwtConfig;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-    @PostConstruct
-    public void init() {
-
-        byte[] bytes = Base64.getDecoder().decode(secretKey);
-
-        key = Keys.hmacShaKeyFor(bytes);
-
-    }
 
     public String createToken(String username, UserRole userRole) {
 
         Date date = new Date();
+        Key key = jwtConfig.getKey();
 
         return BEARER_PREFIX +
                 Jwts.builder()
@@ -58,6 +47,9 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token) {
+
+        Key key = jwtConfig.getKey();
+
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
 
@@ -76,6 +68,9 @@ public class JwtUtil {
     }
 
     public Claims getUserInfoFromToken(String token) {
+
+        Key key = jwtConfig.getKey();
+
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 

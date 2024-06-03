@@ -5,7 +5,7 @@ import com.sparta.assignment01.entity.User;
 import com.sparta.assignment01.enums.UserRole;
 import com.sparta.assignment01.exception.AuthenticationException;
 import com.sparta.assignment01.exception.DuplicateUserException;
-import com.sparta.assignment01.jwt.JwtUtil;
+import com.sparta.assignment01.util.JwtUtil;
 import com.sparta.assignment01.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

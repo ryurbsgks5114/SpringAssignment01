@@ -8,7 +8,7 @@ import com.sparta.assignment01.entity.User;
 import com.sparta.assignment01.exception.AccessDeniedException;
 import com.sparta.assignment01.exception.NotFoundException;
 import com.sparta.assignment01.exception.UnauthorizedException;
-import com.sparta.assignment01.jwt.JwtUtil;
+import com.sparta.assignment01.util.JwtUtil;
 import com.sparta.assignment01.repo.CommentRepo;
 import com.sparta.assignment01.repo.ScheduleRepo;
 import com.sparta.assignment01.repo.UserRepo;
