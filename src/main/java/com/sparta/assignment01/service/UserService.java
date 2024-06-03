@@ -21,6 +21,7 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final JwtUtil jwtUtil;
+    private static final int AUTHORITY = 1;
 
     public ResponseEntity<String> signup(UserRequestDto userRequestDto) {
 
@@ -30,7 +31,7 @@ public class UserService {
 
         UserRole userRole = UserRole.USER;
 
-        if (userRequestDto.getAuthority() == 1) {
+        if (userRequestDto.getAuthority() == AUTHORITY) {
             userRole = UserRole.ADMIN;
         }
 
