@@ -25,7 +25,7 @@ public class ScheduleRequestDto {
 
     @NotBlank(message = "비밀번호를 입력해주세요.", groups = { Create.class, UpdateOrDelete.class })
     @Schema(description = "일정 비밀번호", example = "1234")
-    private String pw;
+    private String password;
 
     public interface Create {}
     public interface UpdateOrDelete {}

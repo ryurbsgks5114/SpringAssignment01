@@ -20,7 +20,7 @@ public class User extends Timestamped {
     private String name;
 
     @Column(nullable = false)
-    private String pw;
+    private String password;
 
     @Column(nullable = false)
     private String nickname;
@@ -31,7 +31,7 @@ public class User extends Timestamped {
 
     public User(UserRequestDto userRequestDto, UserRole authority) {
         this.name = userRequestDto.getName();
-        this.pw = userRequestDto.getPw();
+        this.password = userRequestDto.getPassword();
         this.nickname = userRequestDto.getNickname();
         this.authority = authority;
     }

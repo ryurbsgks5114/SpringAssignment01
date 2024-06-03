@@ -57,7 +57,7 @@ public class ScheduleService {
             throw new BadRequestException("수정하려는 값을 입력해주세요");
         }
 
-        if (schedule.checkPw(scheduleRequestDto.getPw())) {
+        if (schedule.checkPw(scheduleRequestDto.getPassword())) {
             schedule.update(scheduleRequestDto);
         } else {
             throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
@@ -71,7 +71,7 @@ public class ScheduleService {
 
         Schedule schedule = findScheduleById(id);
 
-        if (schedule.checkPw(scheduleRequestDto.getPw())) {
+        if (schedule.checkPw(scheduleRequestDto.getPassword())) {
             scheduleRepo.delete(schedule);
         } else {
             throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");

@@ -26,13 +26,13 @@ public class Schedule extends Timestamped {
     private String manager;
 
     @Column(nullable = false)
-    private String pw;
+    private String password;
 
     public Schedule(ScheduleRequestDto scheduleRequestDto) {
         this.title = scheduleRequestDto.getTitle();
         this.content = scheduleRequestDto.getContent();
         this.manager = scheduleRequestDto.getManager();
-        this.pw = scheduleRequestDto.getPw();
+        this.password = scheduleRequestDto.getPassword();
     }
 
     public void update(ScheduleRequestDto scheduleRequestDto) {
@@ -52,7 +52,7 @@ public class Schedule extends Timestamped {
     }
 
     public boolean checkPw(String pw) {
-        return this.pw.equals(pw);
+        return this.password.equals(pw);
     }
 
 }

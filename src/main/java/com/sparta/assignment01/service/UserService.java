@@ -48,7 +48,7 @@ public class UserService {
 
         Optional<User> user = findUserByName(userRequestDto.getName());
 
-        if (user.isEmpty() || !user.get().getPw().equals(userRequestDto.getPw())) {
+        if (user.isEmpty() || !user.get().getPassword().equals(userRequestDto.getPassword())) {
             throw new AuthenticationException("회원을 찾을 수 없습니다.");
         }
 

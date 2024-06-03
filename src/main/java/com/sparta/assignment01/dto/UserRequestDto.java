@@ -16,7 +16,7 @@ public class UserRequestDto {
     @NotBlank(message = "비밀번호를 입력해주세요.", groups = { Signup.class, Login.class })
     @Size(min = 8, max = 15, message = "비밀번호는 8 ~ 15자 입니다.", groups = { Signup.class })
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "비밀번호는 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.", groups = { Signup.class })
-    private String pw;
+    private String password;
 
     @NotBlank(message = "별명을 입력해주세요.", groups = { Signup.class })
     private String nickname;
